@@ -1,0 +1,70 @@
+#include <iostream>
+#include <stack>
+#include <string>
+using namespace std;
+
+// Check if character is an operand (digit 1-9)
+bool isDigit(char c) {
+    return c >= '1' && c <= '9';
+}
+
+// Return precedence of operators
+int priority(char op) {
+    if (op == '+' || op == '-') return 1;
+    if (op == '*' || op == '/') return 2;
+    return 0; // for '(' and ')'
+}
+
+// Main function to convert infix to postfix
+string infixToPostfix(string infix) {
+    stack<char> st;
+    string postfix = "";
+
+    for (int i = 0; i < infix.length(); i++) {
+        char c = infix[i];
+
+        // If operand, add to postfix
+        if (isDigit(c)) {
+            postfix += c;
+        }
+        // If '(', push to stack
+        else if (c == '(') {
+            st.push(c);
+        }
+        // If ')', pop and add to postfix until '('
+        else if (c == ')') {
+            while (!st.empty() && st.top() != '(') {
+                postfix += st.top();
+                st.pop();
+            }
+            if (!st.empty()) st.pop(); // pop '('
+        }
+        // If operator
+        else {
+            while (!st.empty() && priority(st.top()) >= priority(c)) {
+                postfix += st.top();
+                st.pop();
+            }
+            st.push(c);
+        }
+    }
+
+    // Pop remaining operators
+    while (!st.empty()) {
+        postfix += st.top();
+        st.pop();
+    }
+
+    return postfix;
+}
+
+int main() {
+    string infix;
+    cout << "Enter infix expression (digits 1-9, operators +, -, *, /, and parentheses): ";
+    cin >> infix;
+
+    string postfix = infixToPostfix(infix);
+    cout << "Postfix expression: " << postfix << endl;
+
+    return 0;
+}

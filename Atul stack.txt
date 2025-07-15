@@ -1,0 +1,87 @@
+#include <iostream>
+using namespace std;
+
+int stack[5], n = 5, top = -1;
+
+// Push function to add an element to the stack
+void push(int x)
+{
+    if (top == n - 1) {
+        cout << "Stack is full" << endl;
+    }
+    else {
+        top++;
+        stack[top] = x;
+        cout << x << " pushed to stack" << endl;
+    }
+}
+
+// Display function to show all elements in the stack
+void display()
+{
+    if (top >= 0) {
+        cout << "Stack elements are: " << endl;
+        for (int i = top; i >= 0; i--) {
+            cout << stack[i] << " ";
+        }
+        cout << endl;
+    }
+    else {
+        cout << "Stack is empty" << endl;
+    }
+}
+
+// Pop function to remove an element from the stack
+void pop()
+{
+    if (top == -1)
+        cout << "Stack is empty" << endl;
+    else {
+        cout << "The popped element is: " << stack[top] << endl;
+        top--;
+    }
+}
+
+// Peek function to get the top element without removing it
+int peek()
+{
+    if (top >= 0)
+        return stack[top];
+    else
+        return -1; // Return -1 if stack is empty
+}
+
+// Search function to search for an element in the stack
+void search(int element)
+{
+    for (int i = top; i >= 0; i--) {
+        if (stack[i] == element) {
+            cout << "Element " << element << " found at position " << (top - i + 1) << " from top." << endl;
+            return;
+        }
+    }
+    cout << "Element " << element << " not found in stack." << endl;
+}
+
+int main()
+{
+    // Testing the stack operations
+    push(10);
+    push(20);
+    push(30);
+    push(40);
+    push(50);
+    push(60);  // This should show "Stack is full"
+    
+    display(); // Display elements
+    
+    cout << "Top element is: " << peek() << endl; // Peek the top element
+    
+    pop(); // Pop the top element
+    display(); // Display elements after pop
+    
+    search(30); // Search for an element in the stack
+    search(60); // Search for an element not in the stack
+    
+    return 0;
+}
